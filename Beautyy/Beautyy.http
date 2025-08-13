@@ -1,0 +1,6 @@
+@Beautyy_HostAddress = http://localhost:5007
+
+GET {{Beautyy_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
