@@ -159,7 +159,7 @@ namespace Beautyy.Models
 
             Component component = this.CopyComponent(db);
 
-            List<Containing> containings = db.Containings.Include(c => c.Component).Where(c => c.ContainerId == this.Id && c.IsDelete == false).AsNoTracking().ToList();
+            List<Containing> containings = db.Containings.Include(c => c.Component).ThenInclude(c => c.CombineElements).ThenInclude(c => c.ComponentElement).Where(c => c.ContainerId == this.Id && c.IsDelete == false).AsNoTracking().ToList();
 
             foreach (Containing containing in containings)
             {

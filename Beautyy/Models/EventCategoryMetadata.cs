@@ -23,7 +23,7 @@ namespace Beautyy.Models
 
         public EventCategory Update(CustomContext db, EventCategory eventCategory)
         {
-            IsDelete = false;
+            eventCategory.IsDelete = false;
             db.EventCategories.Update(eventCategory);
             db.SaveChanges();
             return this;
@@ -31,9 +31,11 @@ namespace Beautyy.Models
 
         public EventCategory Delete(CustomContext db)
         {
+
+ 
             IsDelete = true;
             db.EventCategories.Update(this);
-
+            db.SaveChanges();
             return this;
 
         }

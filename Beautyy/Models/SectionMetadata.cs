@@ -70,7 +70,7 @@ namespace Beautyy.Models
 
                     Section nestedSection = (Section)child;
                     nestedSection.Containings = containingsSection.ToList() ?? new List<Containing>();
-                    nestedSection.Create(db, child);
+                    nestedSection.CopySection(db,child);
                 }
             }
         }
@@ -148,8 +148,6 @@ namespace Beautyy.Models
                         section.Create(db, child);
                     }
                 }
-               
-
 
             }
 

@@ -33,18 +33,24 @@ namespace Beautyy.Controllers
             _context.SaveChanges();
             return Ok(component);
         }
-        [HttpPut]
+        [HttpPut("SaveEvent")]
         public ActionResult Update([FromBody] string ev)
         {
   
             Event even = JsonConvert.DeserializeObject<Event>(ev);
-
-            even.Update(_context , even);
+            if (even.Id == 0)
+            {
+                even.Create(_context);
+            }
+            else
+            {
+                even.Update(_context, even);
+            }
             _context.SaveChanges();
             return Ok(ev);
         }
 
-        [HttpPost("CopyEvent")]
+        [HttpPost("CopyEvent/{id}")]
         public ActionResult CopyEvent(int id)
         {
             Event ev = new Event();

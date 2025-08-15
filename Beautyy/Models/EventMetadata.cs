@@ -51,7 +51,7 @@ namespace Beautyy.Models
 
             return this;
         }
-
+        
         public Event Cory(int eventid, CustomContext db)
         {
             Event ev = db.Events.Include(e => e.EventCategories).Include(c => c.Pages).FirstOrDefault(c => c.Id == eventid && c.IsDelete != true);
@@ -163,21 +163,21 @@ namespace Beautyy.Models
             return @event;
         }
 
-        
 
-        public Event Delete (CustomContext db)
+
+        public Event Delete(CustomContext db)
         {
             List<EventCategory> toBeCreated = this.EventCategories.ToList();
             this.EventCategories.Clear();
 
-
-
             IsDelete = true;
             db.Events.Update(this);
+
 
             foreach (EventCategory eventCategory in toBeCreated)
             {
                 eventCategory.Delete(db);
+                eventCategory.Event = this;
             }
 
             foreach (Page page in this.Pages)
@@ -234,10 +234,10 @@ namespace Beautyy.Models
                 foreach (Containing containing in page.Containings)
                 {
                     Component children = containing.Component = db.Components.Include(c => c.CombineElements.Where(i => i.IsDelete != true)).Where(i => i.IsDelete != true).FirstOrDefault(c => c.Id == containing.ComponentId);
-                    
+
                     Type type = Type.GetType(children.Name);
 
-                 
+
                     switch (type.Name)
                     {
                         case "Section":
@@ -330,14 +330,14 @@ namespace Beautyy.Models
                                 break;
                         }
 
-                  
+
 
                     }
 
                 }
             }
 
-          
+
 
             return Ev;
         }
@@ -347,7 +347,7 @@ namespace Beautyy.Models
             Section section = db.Sections.Where(s => s.Id == component.Id && s.IsDelete != true).FirstOrDefault();
             section.Id = (section as Component).Id;
             section.Containings = db.Containings.Where(c => c.ContainerId == section.Id).ToList();
-  
+
             foreach (Containing containing in section.Containings)
             {
 
@@ -446,7 +446,7 @@ namespace Beautyy.Models
                             Number.Id = (Number as ComponentElement).Id;
                             break;
                     }
-                  
+
 
                 }
             }
@@ -498,7 +498,7 @@ namespace Beautyy.Models
                         Popup Popup = (Popup)s;
                         Popup.Id = (Popup as FormComponentTemplate).Id;
                         break;
-             
+
                 }
 
                 foreach (CombineFormElementTemplate item in s.CombineFormElementTemplates)
@@ -547,12 +547,12 @@ namespace Beautyy.Models
 
 
                 }
-            }    
+            }
         }
 
-      
 
-        
-    
+
+
+
     }
 }
